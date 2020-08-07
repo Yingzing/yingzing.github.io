@@ -17,7 +17,7 @@
       <pubDate>Fri, 07 Aug 2020 07:39:22 -0700</pubDate>
       
       <guid>https://yingzing.github.io/tech/tensorflow/</guid>
-      <description></description>
+      <description>&lt;p&gt;TensorFlow™是一个基于数据流编程（dataflow programming）的符号数学系统，被广泛应用于各类机器学习（machine learning）算法的编程实现，其前身是谷歌的神经网络算法库DistBelief [1]  。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -26,7 +26,7 @@
       <pubDate>Fri, 07 Aug 2020 06:15:33 -0700</pubDate>
       
       <guid>https://yingzing.github.io/tech/keras/</guid>
-      <description></description>
+      <description>&lt;p&gt;Keras是一个由Python编写的开源人工神经网络库，可以作为Tensorflow、Microsoft-CNTK和Theano的高阶应用程序接口，进行深度学习模型的设计、调试、评估、应用和可视化 [1]  。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -35,7 +35,7 @@
       <pubDate>Fri, 07 Aug 2020 05:12:44 -0700</pubDate>
       
       <guid>https://yingzing.github.io/tech/lstm/</guid>
-      <description></description>
+      <description>&lt;p&gt;长短期记忆网络（LSTM，Long Short-Term Memory）是一种时间循环神经网络，是为了解决一般的RNN（循环神经网络）存在的长期依赖问题而专门设计出来的，所有的RNN都具有一种重复神经网络模块的链式形式。在标准RNN中，这个重复的结构模块只有一个非常简单的结构，例如一个tanh层。&lt;/p&gt;</description>
     </item>
     
     <item>
