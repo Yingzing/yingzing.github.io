@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content="Hugo 0.74.1" />
+
+  <title>Matlab搭建cnn框架 &middot; 王凤翔</title>
+
+  <meta name="description" content="" />
+
+  
+
+<meta itemprop="name" content="Matlab搭建cnn框架">
+<meta itemprop="description" content="（1）神经网络
+“神经网络”是“人工神经网络”的简称，顾名思义，神经网络借鉴了神经生理学关于人体神经网络的研究，并尝试通过数学建模来描述机器智能。">
+<meta itemprop="datePublished" content="2019-08-06T17:10:55-07:00" />
+<meta itemprop="dateModified" content="2019-08-06T17:10:55-07:00" />
+<meta itemprop="wordCount" content="839">
+
+
+
+<meta itemprop="keywords" content="cnn," />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Matlab搭建cnn框架"/>
+<meta name="twitter:description" content="（1）神经网络
+“神经网络”是“人工神经网络”的简称，顾名思义，神经网络借鉴了神经生理学关于人体神经网络的研究，并尝试通过数学建模来描述机器智能。"/>
+
+
+<meta property="og:title" content="Matlab搭建cnn框架" />
+<meta property="og:description" content="（1）神经网络
+“神经网络”是“人工神经网络”的简称，顾名思义，神经网络借鉴了神经生理学关于人体神经网络的研究，并尝试通过数学建模来描述机器智能。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://yingzing.github.io/tech/matlab%E6%90%AD%E5%BB%BAcnn%E6%A1%86%E6%9E%B6/" />
+<meta property="article:published_time" content="2019-08-06T17:10:55-07:00" />
+<meta property="article:modified_time" content="2019-08-06T17:10:55-07:00" />
+
+
+
+
+  <link type="text/css"
+        rel="stylesheet"
+        href="/css/print.css"
+        media="print">
+
+  <link type="text/css"
+        rel="stylesheet"
+        href="/css/poole.css">
+
+  <link type="text/css"
+        rel="stylesheet"
+        href="/css/hyde.css">
+
+  
+
+
+  <link type="text/css" rel="stylesheet" href="/css/blog.css">
+
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700&display=swap">
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+        integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
+        crossorigin="anonymous" />
+
+  <link rel="apple-touch-icon-precomposed"
+        sizes="144x144"
+        href="/apple-touch-icon-144-precomposed.png">
+
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  </head>
+<body>
+  <aside class="sidebar">
+  <div class="container">
+    <div class="sidebar-about">
+      
+        
+        <div class="author-image">
+          <img src="/images/taijimao.jpg" class="img-circle img-headshot center" alt="Profile Picture">
+        </div>
+        
+      
+
+      <h1>王凤翔</h1>
+
+      
+      <p class="lead">烟酒僧的一笔一画</p>
+      
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="https://yingzing.github.io/">Home</a>
+        </li>
+        
+	
+        <li>
+          <a href="/about">About</a>
+        </li>
+	
+	
+	
+	<li>Posts</li>
+	<ul>
+		
+		<li><a href="/tech/">technology</a></li>
+		
+		<li><a href="/humanities/">humanities</a></li>
+		
+	</ul>
+	
+	
+      </ul>
+    </nav>
+    <section class="social-icons">
+      
+      <a href="#" rel="me" title="新浪微博" target="_blank">
+        <i class="fab fa-weibo" aria-hidden="true"></i>
+      </a>
+      
+      <a href="#" rel="me" title="知乎" target="_blank">
+        <i class="fab fa-zhihu" aria-hidden="true"></i>
+      </a>
+      
+      <a href="#" rel="me" title="Github" target="_blank">
+        <i class="fab fa-github" aria-hidden="true"></i>
+      </a>
+      
+    </section>
+  </div>
+</aside>
+
+
+  <main class="content container">
+  <div class="post">
+  <h1>Matlab搭建cnn框架</h1>
+
+  <div class="post-date">
+    <time datetime="2019-08-06T17:10:55-0700">Aug 6, 2019</time> &middot; 4 min read
+  </div>
+
+  <p>（1）神经网络
+“神经网络”是“人工神经网络”的简称，顾名思义，神经网络借鉴了神经生理学关于人体神经网络的研究，并尝试通过数学建模来描述机器智能。</p>
+<p>更通俗地讲，神经网络是从信息处理的角度，对人体神经细胞传递信息的工作原理进行模拟，神经网络由若干节点（神经细胞）组成，每一层的细胞之和相邻的两层细胞相连接，就像人体细胞的轴突连接下一个神经细胞，树突接受上一个神经细胞传来的信号（神经递质）。输入层和输出层之和一个相连接，输入层接受初始信号，经过层层处理，得到一个输出信号。以下边一个简单的例子说明：
+神经网络的机构以层为基本单位，这是一个三层的神经网络，第一层和最后一层分别为输入层和输出层，输入层和输出层以外的叫隐层，而通常我们把隐层的层数看做神经网络的层数。根据不同的处理需求，可以有若干数量的隐层。以图中的隐层为例，隐层中的每一个神经细胞与上一层的所有细胞相连，接受来自上一层的信号，同时与下一层的所有细胞相连，传递信号。其中，一个细胞接受到的信号是上一层每个细胞输出值与连接权值乘积的和通过激活函数激活得到的值，即：y=f（+θ），这里的激活函数就像是设定了一个阈值，只有达到了阈值，信号才能够继续往下传递。激活函数将非线性关系引入了神经网络，这是因为所处理的数据往往不是线性的，数据之间具有复杂的联系，使用激活函数之后，神经网络的表达性也就提高了。根据不同的需求，激活函数也有多种，常见的如下：
+逻辑函数：φ(x)=
+正切函数：φ(x)=tanh(x)=
+线性整流函数：φ(x)=max(0,x)
+ELU函数:
+Softplus函数:φ(x)=ln(1+e^x)
+恒同映射:φ(x) = x
+每一层都做这样类似的处理，最后通过如softmax等函数生成与输入值对应的预测值。
+神经网络的训练过程就是让神经网络学会辨别输入值的过程，也就是给定一个输入值，神经网络的输出值应该得出一个反映真实值的数据。这个过程也就是训练权重ωi和偏移值θ的过程。
+首先初始化神经网络的各层权值，给定一组训练集（X，Y），X输入之后运算得到神经网络的预测值Y’，此时，需要用到特定的损失函数来求得Y’与Y之间的差异值，比如使用最简单的距离损失函数L=|Y-Y’|²，为了调整权值wi以使得最终结果符合我们的预期，即令损失函数值达到最小，我们就要用每一个wi对L求出偏导数，向着偏导数相反的方向对wi作出调整，这个过程需要用到链式法则，此处不详细描述。调整之后，重新将训练集X输入网络，不断地迭代，直到L收敛或足够小，这就完成了神经网络的训练。</p>
+<p>重点概念
+BP梯度下降法
+·求微商
+防止过拟合（https://blog.csdn.net/xiaoyi_eric/article/details/80909492）
+·早停：一部分数据用于训练，一部分用于验证，当验证集的误差上升时，就停止训练
+·正则化：
+原理：特征数量取决于X和W，X是训练集，只能通过W修正。
+**L0范数：**向量中非零元素的个数，记为
+**L1范数：**绝对值之和，记为
+**L2范数：**通常意义上的模，记为（此处即用到L2范数）
+跳出局部最小
+·以多组不同的参数值初始化神经网络，相当于从不同的点搜索最优参数。
+·模拟退火技术，每一次迭代都以一定概率接受次优解，接受次优解的概率要随着时间的推移下降。
+·使用随机梯度下降，在计算梯度时加入随机因素。
+·遗传算法也可以用来帮助训练神经网络，以接近全局最优解。
+以上技术大多数是启发式的，缺乏理论保障。</p>
+<p>（2）卷积神经网络
+卷积神经网络（CNN）是普通神经网络的进一步发展，主要用于处理图片矩阵。卷积神经网络相对于普通神经网络的几个特点在于：部分连接、权值共享、池化，因为卷积神经网络多用于图像的处理，下面将神将网络层扩展的二维平面，即一个二维矩阵表示一个神经网络层，下面分别对这几个特点作简要说明。
+1.部分连接
+部分连接指的是一个神经细胞只上一层的部分神经细胞相连接，而非与上一层所有神经细胞相连接，如图所示：
+两个矩阵代表两个神经细胞层，一个方格代表一个神经细胞，上层的每一个神经细胞都和下层的对应位置的九个神经细胞相连，下层的九个细胞是一个3×3的矩阵，我们把整个矩阵的大小叫做感受野。
+2.权值共享
+普通神经网络中，隐层的一个神经细胞与上层每个神经细胞之间都有一个权值，若上层有M各神经细胞，本层有N各神经细胞，权值就共有M<em>N个，这些权值互相独立。而在CNN中，不同的神经细胞与上层神经细胞的连接权值是相同的，仍以Figure2为例，上层的第一个神经细胞与下层九个神经细胞连接，有九个权值（可以把覆盖在下层矩阵上的阴影矩阵看做权值构成的矩阵），同样上层的第二个神经细胞与下层对应九个神经细胞连接的权值使用相同的九个权值，相应的，该层的每一个细胞与下层的九个细胞相连，所对应的权值也都使用相同的这一组权值组合。这九个权值组成的3</em>3矩阵就是神经细胞层的卷积核。权值共享的另一个方面表现在使用激活函数的时候，每一个网络层的所有细胞共用一个θ，因此，权值的共享使卷积神经网络的参数量大大降低。
+3.池化
+池化即对矩阵的不重叠采样，常见如最大值池化，平均值池化，也就是分别在选择的范围内求最大值和平均值，如图。
+Figure 3 最大值池化操作（来自网络）
+图三（右）即采用了最大值池化，每个池化采样区域为2*2的矩阵，每个区域选取最大值作为采样值，区域不重叠，最后得到的结果如Figure3左边的小矩阵，如果是平局值池化，就是对区域的所有值求平均值。
+最终，卷积神经网络在网络的最后几层仍然使用全连接层，以得到手所有权重影响的预测值。卷积神经网络其它部分和普通神经网络的原理相同，因此不再赘述。</p>
+<p>重点概念
+卷积核
+权值矩阵，一个feature map共用一个卷积核，卷积核与对应相同大小的感受野区域做內积，每层有一个bias。假设上一层的输出深度为M，下一层输出深度为N，中间隐藏层的卷积核层数为M*N（N组滤波器，一个滤波器里有M个卷积核）。卷积核的维度视具体算法而定。
+池化
+池化起到减小输出量、防止过拟合（基于训练的学习得到的特征参数过多，泛化性差）的作用，可以捕捉主要的信息，同时也损失了一些信息。
+归一化层
+防止梯度弥散（小于1的数连续相乘会变得很小）。
+全连接
+对特征进行重新拟合，减少特征信息的丢失。
+Softmax
+输入和输出值的个数相等，输入zi对应的输出输出i为，用于多分类，输出各值的概率。</p>
+<p>代码
+Matlab构建VGG-19的图像风格转换（效果还有待提高，用python写可能会好一点，而且有现成的包可以调用，以下每个代码块都是一个.m文件）
+%卷积层定义
+%定义卷积层类
+classdef ConvolutionalLayer
+properties%定义卷积层属性
+input;%输入值，为一个三维矩阵
+width;%矩阵的宽度
+height;%矩阵的高度
+inputchannel;%输入值得通道数，即矩阵的深度
+outputchannel;%输出矩阵的通道数
+w;%权值，即卷积核矩阵
+end
+methods
+function obj=ConvolutionalLayer(input,outputchannel,weights)
+%构造函数，用于初始化各属性，需要的形参分别为input：一个三维矩阵，
+%outputchannel：输出矩阵的通道数，weithts：来自vgg19的权值，
+%包括卷积核矩阵和偏移值矩阵
+obj.input=input;
+obj.width=size(input,1);
+obj.height=size(input,2);
+obj.inputchannel=size(input,3);
+obj.outputchannel = outputchannel;
+obj.w=weights{1,1};
+end</p>
+<pre><code>    function output=get_output(obj)
+        %获取卷积层输出值函数，即输出做完卷积并经过激活函数处理的矩阵
+        matrix = zeros(obj.width,obj.height,obj.outputchannel);
+        matri = zeros(obj.width,obj.height);
+        %为输出矩阵预留空间
+        for j=1:obj.outputchannel%外循环，得到输出矩阵的每一个通道的值
+            for i=1:obj.inputchannel
+                %内循环，原来一个通道内做完卷积后的矩阵相加，
+                %形成一个新的通道矩阵
+                mat=conv2(obj.input(:,:,i),obj.w(:,:,i,j),&quot;same&quot;);
+                matri = matri+mat;
+            end
+            matrix(:,:,j) = matri;
+            matri(:,:)=0;
+        end
+        output=matrix;%输出矩阵
+    end
+end
+</code></pre>
+<p>end</p>
+<p>%定义函数集合类，此文件下定义了所需的所有运算函数
+classdef FunctionSet
+methods
+function obj=FunctionSet()%构造函数
+end</p>
+<pre><code>    function a=Losscontent(~,input1,input2)
+        %内容损失函数
+        M=size(input1,1);
+        N=size(input1,2);
+        sum=0;
+        for i=1:M
+            for j =1:N
+                sum = sum+(input1(i,j)-input2(i,j)).^2;
+            end
+        end
+        a=sum/2;
+    end
+    
+    function a=two2three(~,fl)
+        [l1,l2]=size(fl);
+        M=sqrt(l2);
+        mat=zeros(M,M,l1);
+        for i=1:l1
+            for j =1:l2
+                if mod(j,M)==0
+                    xj=M;
+                else
+                    xj=mod(j,M);
+                end
+                mat(ceil(j/M),xj,i)=fl(i,j);
+            end
+        end
+        a=mat;
+    end
+    
+    function plcontent=Plcontent(obj,input1,input2)
+        matrix1=obj.Fl(input1);
+        matrix2=obj.Fl(input2);
+        N=size(matrix1,1);
+        M=size(matrix1,2);
+        matrix=zeros(N,M);
+        for i=1:N
+            for j=1:M
+                if matrix1(i,j)&gt;0
+                    matrix(i,j)=matrix1(i,j)-matrix2(i,j);
+                else
+                    matrix(i,j)=0;
+                end
+            end
+        end
+        plcontent=matrix;
+    end
+    
+    function fl=Fl(~,input1)
+        %内容特征矩阵转向量
+        N=size(input1,3);
+        M1=size(input1,1);
+        M2=size(input1,2);
+        M=M1*M2;
+        matrix=zeros(N,M);
+        for i=1:N
+            for j=1:M
+                    w=ceil(j/M2);
+                    if mod(j,M2)==0
+                        h=M2;
+                    else
+                        h=mod(j,M2);
+                    end
+                    matrix(i,j)=input1(w,h,i);
+            end
+        end
+        fl=matrix;
+    end
+    
+    function gl=Stylemap(~,fl)
+        %风格特征生成函数，输入为内容特征矢量
+        matrix1=fl;
+        n=size(matrix1,1);
+        m=size(matrix1,2);
+        matrix=zeros(n,n);
+        for iw=1:n
+            for ih=1:n
+                sum=0;
+                for k=1:m
+                    sum = sum+matrix1(iw,k)*matrix1(ih,k);
+                end
+                matrix(iw,ih)=sum;
+            end
+        end
+        gl=matrix;
+    end
+    
+    function el=El(obj,input1,input2)
+        %单层风格损失函数
+        sum=0;
+        f1=obj.Fl(input1);
+        f2=obj.Fl(input2);
+        gl=obj.Stylemap(f1);
+        al=obj.Stylemap(f2);
+        M=size(f1,2);
+        N=size(gl,1);
+        for i=1:N
+            for j=1:N
+                sum = sum + (( gl(i,j)-al(i,j)).^2);
+            end
+        end
+        el = (1/(4*N*N*M*M))*sum;
+    end
+    
+    function pel=Pel(obj,input1,input2)
+        %风格损失求偏导数，输入为风格图片内容特征矢量，
+        %风格图片和白噪声图片的风格特征矩阵
+        f1=obj.Fl(input1);
+        f2=obj.Fl(input2);
+        gl=obj.Stylemap(f1);
+        al=obj.Stylemap(f2);
+        N=size(f1,1);
+        M=size(f1,2);
+        matrix=zeros(N,M);
+        matirx2=f1'*(gl-al);
+        for i=1:N
+            for j = 1:M
+                if f1(i,j)&gt;0
+                    matrix(i,j)=matirx2(j,i);
+                else
+                    matrix(i,j)=0;
+                end
+            end
+        end
+        pel=matrix/(N.^2*M.^2);
+    end
+    
+    function b=Lossstyle(~,input1)
+        %整体风格损失函数，输入为一个单层风格函数矩阵
+        N=size(input1,2);
+        sum=0;
+        for i=1:N
+            sum = sum+input1(i);
+        end
+        b = sum/5;
+    end
+    
+    function a=get_content_map(~,feature)
+        %将内容特征整合函数，输入为内容特征三维矩阵
+        %处理过程为：将一二维度上的位置对应的所有通道的元素值相加
+        x=size(feature);
+        matrix=zeros(x(1),x(2));
+        for i =1:x(1)
+            for j=1:x(2)
+                for k=1:x(3)
+                    matrix = feature(:,:,k)+matrix;
+                end
+           end
+        end
+        a=mat2gray(matrix);
+    end
+end
+</code></pre>
+<p>end</p>
+<p>%反向传播求梯度的类
+classdef BP_network
+properties
+input;
+layer;
+layers;
+x;
+end
+properties(Dependent)
+finaloutput;
+end
+methods
+function obj=BP_network(input,layer,layers,x)
+obj.input=input;
+obj.layer=layer;
+obj.layers=layers;
+obj.x=x;
+end</p>
+<pre><code>    function output=get_output(obj,input,lay)
+        fprintf(&quot;%d\n&quot;,lay);
+        if obj.layers{1,lay}.type=='relu'
+            output=obj.relu(input,lay);
+        else
+            if obj.layers{1,lay}.type=='conv'
+                if lay==1
+                    l1=224;
+                    l2=224;
+                    l3=3;
+                else
+                    [l1,l2,l3]=size(obj.x{1,lay-1});
+                end
+                weight=obj.layers{1,lay}.weights{1,1};
+                matrix=zeros(l1,l2,l3);
+                matri =zeros(l1,l2);
+                d4=size(weight,4);
+                for i=1:l3
+                    for j=1:d4
+                        w=weight(:,:,i,j);
+                        w=rot90(w,2);
+                        mat=conv2(input(:,:,j),w,&quot;same&quot;);
+                        matri = matri + mat;
+                    end
+                    matrix(:,:,i) = matri;
+                    matri(:,:)=0;
+                end
+            else
+                if obj.layers{1,lay}.type=='pool'
+                   [l1,l2,l3]=size(obj.x{1,lay-1});
+                   [a1,a2,a3]=size(obj.x{1,lay});
+                   matrix=zeros(l1,l2,l3);
+                   for i=1:a1
+                       for j=1:a2
+                           for k=1:a3
+                               matrix(2*i-1,2*j-1,k)=1/4*input(i,j,k);
+                               matrix(2*i,2*j-1,k)=1/4*input(i,j,k);
+                               matrix(2*i-1,2*j,k)=1/4*input(i,j,k);
+                               matrix(2*i,2*j,k)=1/4*input(i,j,k);
+                           end
+                       end
+                   end
+                end
+            end
+            output = matrix;
+        end
+    end
+    
+    function m=relu(obj,a,lay)
+        x1=obj.x{1,lay};
+        [a1,a2,a3]=size(a);
+        mat=zeros(a1,a2,a3);
+        for k=1:a3
+            for i=1:a1
+                for j=1:a2
+                    if x1(i,j,k)==0
+                       mat(i,j,k)=0;
+                    else
+                       mat(i,j,k)=a(i,j,k);
+                    end
+                end
+            end
+        end
+        m=mat;
+    end
+    
+    function finaloutput=get.finaloutput(obj)
+        mat=obj.input;
+        lay=obj.layer;
+        while lay&gt;0
+            mat=obj.get_output(mat,lay);
+            lay = lay-1;
+        end
+        finaloutput=mat;
+        fprintf('end\n');
+    end
+    
+end
+</code></pre>
+<p>end</p>
+<p>%定义基于vgg19的CNN网络搭建
+classdef Network
+properties
+input;%初始输入值，一个224<em>224</em>3的矩阵
+layers;%存储vgg19各层数据的cell数组
+end
+methods
+function obj=Network(image)%构造函数
+obj.input=image;
+net=load(&lsquo;imagenet-vgg-verydeep-19.mat&rsquo;);
+%加载vgg19框架
+obj.layers=net.layers;
+%将vgg19的结构参数数组赋给layers
+end
+function a=setting(obj)
+%各网络层的构建，
+%输入参数，创建各卷积层实例，并调用结果获取函数，获得上一层的输出矩阵，
+%作为下一层的参数之一，除了第一层矩阵为初始图片外，其它每一层的输入值均为前一层的结果
+%卷积层的其它参数均有vgg19确定，在定义卷积层类时已经说明
+conv1_1=ConvolutionalLayer(obj.input,64,obj.layers{1,1}.weights).get_output();
+relu1_1=Relu().get_output(conv1_1,obj.layers{1,1}.weights{1,2});
+conv1_2=ConvolutionalLayer(relu1_1,64,obj.layers{1,3}.weights).get_output();
+relu1_2=Relu().get_output(conv1_2,obj.layers{1,3}.weights{1,2});
+pool1=PoolingLayer(relu1_2,2,2).get_output();
+conv2_1=ConvolutionalLayer(pool1,128,obj.layers{1,6}.weights).get_output();
+relu2_1=Relu().get_output(conv2_1,obj.layers{1,6}.weights{1,2});
+conv2_2=ConvolutionalLayer(relu2_1,128,obj.layers{1,8}.weights).get_output();
+relu2_2=Relu().get_output(conv2_2,obj.layers{1,8}.weights{1,2});
+pool2=PoolingLayer(relu2_2,2,2).get_output();
+conv3_1=ConvolutionalLayer(pool2,256,obj.layers{1,11}.weights).get_output();
+relu3_1=Relu().get_output(conv3_1,obj.layers{1,11}.weights{1,2});
+conv3_2=ConvolutionalLayer(relu3_1,256,obj.layers{1,13}.weights).get_output();
+relu3_2=Relu().get_output(conv3_2,obj.layers{1,13}.weights{1,2});
+conv3_3=ConvolutionalLayer(relu3_2,256,obj.layers{1,15}.weights).get_output();
+relu3_3=Relu().get_output(conv3_3,obj.layers{1,15}.weights{1,2});
+conv3_4=ConvolutionalLayer(relu3_3,256,obj.layers{1,17}.weights).get_output();
+relu3_4=Relu().get_output(conv3_4,obj.layers{1,17}.weights{1,2});
+pool3=PoolingLayer(relu3_4,2,2).get_output();
+conv4_1=ConvolutionalLayer(pool3,512,obj.layers{1,20}.weights).get_output();
+relu4_1=Relu().get_output(conv4_1,obj.layers{1,20}.weights{1,2});
+conv4_2=ConvolutionalLayer(relu4_1,512,obj.layers{1,22}.weights).get_output();
+relu4_2=Relu().get_output(conv4_2,obj.layers{1,22}.weights{1,2});
+conv4_3=ConvolutionalLayer(relu4_2,512,obj.layers{1,24}.weights).get_output();
+relu4_3=Relu().get_output(conv4_3,obj.layers{1,24}.weights{1,2});
+conv4_4=ConvolutionalLayer(relu4_3,512,obj.layers{1,26}.weights).get_output();
+relu4_4=Relu().get_output(conv4_4,obj.layers{1,26}.weights{1,2});
+pool4=PoolingLayer(relu4_4,2,2).get_output();
+conv5_1=ConvolutionalLayer(pool4,512,obj.layers{1,29}.weights).get_output();
+%以下层是图像风格转换未用到的卷积层，为了节省时间，未调用
+%conv5_2=ConvolutionalLayer(conv5_1,512,obj.layers{1,31}.weights).get_output();
+%conv5_3=ConvolutionalLayer(conv5_2,512,obj.layers{1,33}.weights).get_output();
+%conv5_4=ConvolutionalLayer(conv5_3,512,obj.layers{1,35}.weights).get_output();
+%pool5=PoolingLayer(conv5_4,2,2).get_output();
+%fc6=ConvolutionalLayer(pool5,4096,obj.layers{1,38}.weights).get_output();
+%fc7=ConvolutionalLayer(fc6,4096,obj.layers{1,40}.weights).get_output();
+%fc8=ConvolutionalLayer(fc7,1000,obj.layers{1,42}.weights).get_output();
+fprintf(&quot;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;结束&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;\n&rdquo;)
+%a={conv1_1,conv2_1,conv3_1,conv4_1,conv5_1,conv4_2};
+a={conv1_1,relu1_1,conv1_2,relu1_2,pool1,conv2_1,relu2_1,conv2_2,relu2_2,pool2,conv3_1,relu3_1,conv3_2,relu3_2,conv3_3,relu3_3,conv3_4,relu3_4,pool3,conv4_1,relu4_1,conv4_2,relu4_2,conv4_3,relu4_3,conv4_4,relu4_4,pool4,conv5_1};
+%输出图像风格转换所需要的所有层次，前五个为风格特征所需，最后一个为
+%内容特征所需，选择的层次由论文试验所给出
+end
+end
+end</p>
+<p>%定义最大值池化层类
+classdef PoolingLayer
+properties
+input;%输入值，为一个三维矩阵
+width;%输入矩阵的宽度
+height;%输入矩阵的高度
+featurenum;%输入矩阵的特征层数，即深度或者通道数
+stridex;%采样域宽度
+stridey;%采样域高度
+output;%输出值，一个三维矩阵
+end
+methods
+function obj=PoolingLayer(input,stridex,stridey)
+%构造函数
+obj.input=input;
+obj.width=size(input,1);
+obj.height=size(input,2);
+obj.featurenum=size(input,3);
+obj.stridex=stridex;
+obj.stridey=stridey;
+end
+function output=get_output(obj)
+%获取输出值函数，在此函数中实现最大值池化过程
+matrix=zeros(obj.width/2,obj.height/2,obj.featurenum);
+for k=1:obj.featurenum
+for i=1:obj.stridex:obj.width%以感受野宽度为步长进行自加
+for j=1:obj.stridey:obj.height%以感受野高度为步长进行自加
+matrix((1+i)/2,(1+j)/2,k)=1/4*(obj.input(i,j,k)+obj.input(i+1,j,k)+obj.input(i,j+1,k)+obj.input(i+1,j+1,k));
+%取感受野内平均值
+end
+end
+end
+output=matrix;
+end
+end
+end</p>
+<p>%定义Relu激活函数类
+classdef Relu
+properties
+end
+methods
+function obj=Relu()
+end
+function output=get_output(~,a,b)
+%relu激活函数，在做完卷积后处理输出
+mat=zeros(size(a,1),size(a,2),size(a,3));
+for k=1:size(a,3)
+for i=1:size(a,1)
+for j=1:size(a,2)
+mat(i,j,k)=max([0,a(i,j,k)+b(k,1)]);
+end
+end
+end
+output=mat;
+end
+end
+end</p>
+<p>%调用程序
+%创建内容、风格、白噪声的神经网络实例，
+%并调用结果获取函数setting()获取所需要的卷积层输出结果
+%save b保存工作区风格和内容图片特征
+%注释部分代码为调试程序时为了节省时间所用，不影响结果
+clear;</p>
+<p>content_pic = double(imresize(imread(&lsquo;city.jpg&rsquo;),[224,224]));%读取内容和风格图片，并转换成224*224大小
+style_pic = double(imresize(imread(&lsquo;xingkong.jpg&rsquo;),[224,224]));
+content=Network(content_pic).setting();%将内容图片和风格图片传入网络，得到各层特征值
+style = Network(style_pic).setting();
+%white_noise_pic =double(imresize(imread(&lsquo;answer0.jpg&rsquo;),[224,224]));%生成白噪声图片
+%white_noise = Network(white_noise_pic).setting();
+%save d;</p>
+<p>c=load(&lsquo;c.mat&rsquo;);
+%content=c.content;
+%style=c.style;
+white_noise_pic=c.white_noise_pic;
+white_noise=c.white_noise;</p>
+<p>method=FunctionSet();%创建方法集实例
+net=load(&lsquo;imagenet-vgg-verydeep-19.mat&rsquo;);%加载VGG网络的参数
+layers = net.layers;</p>
+<p>for times=1:100%设置迭代次数20次
+fprintf(&lsquo;Start_%d\n&rsquo;,times);
+%求需要用到层次的第一层梯度passia(L_totle)/passia(Fl )
+p_content=method.two2three(method.Plcontent(white_noise{1,22},content{1,22}));
+p_style1=method.two2three(method.Pel(white_noise{1,1},style{1,1}));
+p_style2=method.two2three(method.Pel(white_noise{1,6},style{1,6}));
+p_style3=method.two2three(method.Pel(white_noise{1,11},style{1,11}));
+p_style4=method.two2three(method.Pel(white_noise{1,20},style{1,20}));
+p_style5=method.two2three(method.Pel(white_noise{1,29},style{1,29}));
+%将各梯度矩阵作为参数送入反向传播网络，用链式法则求梯度，返回即为最终总体的梯度值矩阵
+der1 = BP_network(p_content,22,layers,white_noise).finaloutput;
+der2=(1/5)*(BP_network(p_style1,1,layers,white_noise).finaloutput+BP_network(p_style2,6,layers,white_noise).finaloutput+BP_network(p_style3,11,layers,white_noise).finaloutput+BP_network(p_style4,20,layers,white_noise).finaloutput+BP_network(p_style5,29,layers,white_noise).finaloutput);
+der = der1 + 20*der2;
+white_noise_pic = white_noise_pic-0.0001*der;%调整输入
+%der(100:110,100:110,1)
+%将调整后的输入矩阵做处理，使之每个像素值介于0-255之间
+for i=1:224
+for j=1:224
+for k=1:3
+if white_noise_pic(i,j,k)&gt;255
+white_noise_pic(i,j,k)=255;
+else
+if white_noise_pic(i,j,k)&lt;0
+white_noise_pic(i,j,k)=0;
+end
+end
+end
+end
+end
+%将调整后的白噪声图片重新输入特征提取卷积神经网络，获得更新的特征值
+white_noise = Network(white_noise_pic).setting();
+%存储并输出调整后的白噪声图
+name = strcat(num2str(times),'.star_city_test.jpg&rsquo;);
+imwrite(mat2gray(white_noise_pic),name);
+fprintf(&ldquo;第%d次迭代结束\n&rdquo;,times);
+end
+clear;</p>
+<p>Python实现一个简单的图片分类器
+from keras.datasets import cifar10
+import numpy as np
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import Dropout
+from keras.layers import Flatten
+from keras.layers.convolutional import Conv2D
+from keras.layers.convolutional import MaxPooling2D
+from keras.optimizers import SGD
+from keras.constraints import maxnorm
+from keras.utils import np_utils
+from keras import backend
+backend.set_image_data_format(&lsquo;channels_first&rsquo;)</p>
+<h1 id="设定随机数种子">设定随机数种子</h1>
+<p>seed = 7
+np.random.seed(seed)</p>
+<h1 id="导入数据">导入数据</h1>
+<p>(x_train, y_train), (x_validation, y_validation) = cifar10.load_data()
+x_train = x_train.astype(&lsquo;float32&rsquo;)
+x_validation = x_validation.astype(&lsquo;float32&rsquo;)
+x_train = x_train/255.0
+#归一化
+x_validation = x_validation/255.0</p>
+<h1 id="进行one-hot编码">进行one-hot编码</h1>
+<p>y_train = np_utils.to_categorical(y_train)
+y_validation = np_utils.to_categorical(y_validation)
+num_classes = y_train.shape[1]
+#一维向量</p>
+<h1 id="定义模型创建函数">定义模型创建函数</h1>
+<p>def create_model(epochs=25):
+model = Sequential()
+model.add(Conv2D(32, (3, 3), input_shape=(3, 32, 32), padding='same&rsquo;, activation='relu&rsquo;, kernel_constraint=maxnorm(3)))
+#输入层，输入为32<em>32</em>3的图像数据，卷积核3<em>3，输出通道32，边缘填充，relu激活函数，最大范数约束
+model.add(Dropout(0.2))
+#以0.2的概率隐藏某些神经元
+model.add(Conv2D(32, (3, 3), activation='relu&rsquo;, padding='same&rsquo;, kernel_constraint=maxnorm(3)))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+#最大值池化
+model.add(Flatten())
+#展平1</em>(16<em>16</em>32)
+model.add(Dense(512, activation='relu&rsquo;, kernel_constraint=maxnorm(3)))
+#全连接层，输出通道为512
+model.add(Dropout(0.5))
+model.add(Dense(10, activation='softmax&rsquo;))
+#输出结果，一个分类概率向量
+lrate = 0.01
+#学习率为0.01
+decay = lrate/epochs
+#学习率下降速度=学习率/训练次数
+sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
+# 编译模型
+model.compile(loss='categorical_crossentropy&rsquo;, optimizer=sgd, metrics=[&lsquo;accuracy&rsquo;])
+return model</p>
+<p>epochs = 25
+model = create_model(epochs)</p>
+<h1 id="训练模型及评估模型">训练模型及评估模型</h1>
+<p>model.fit(x=x_train, y=y_train, epochs=epochs, batch_size=32, verbose=2)
+score = model.evaluate(x=x_validation, y=y_validation, verbose=0)
+print(&lsquo;Accuracy: %.2f%%&rsquo; % (score[1] * 100))</p>
+</div>
+
+
+  </main>
+
+  <footer>
+  <div>
+    &copy; Wang Fengxiang 2020
+
+    &middot; <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank">CC BY-SA 4.0</a>
+
+    
+  </div>
+</footer>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"
+          integrity="sha256-MAgcygDRahs+F/Nk5Vz387whB4kSK9NXlDN3w58LLq0="
+          crossorigin="anonymous"></script>
+
+  <script src="/js/blog.js"></script>
+
+  
+</body>
+</html>

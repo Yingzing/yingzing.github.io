@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>深度学习之路 on 王凤翔</title>
+    <link>https://yingzing.github.io/series/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF/</link>
+    <description>Recent content in 深度学习之路 on 王凤翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 06 Aug 2019 17:10:55 -0700</lastBuildDate>
+    
+	<atom:link href="https://yingzing.github.io/series/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Matlab搭建cnn框架</title>
+      <link>https://yingzing.github.io/tech/matlab%E6%90%AD%E5%BB%BAcnn%E6%A1%86%E6%9E%B6/</link>
+      <pubDate>Tue, 06 Aug 2019 17:10:55 -0700</pubDate>
+      
+      <guid>https://yingzing.github.io/tech/matlab%E6%90%AD%E5%BB%BAcnn%E6%A1%86%E6%9E%B6/</guid>
+      <description>&lt;p&gt;（1）神经网络
+“神经网络”是“人工神经网络”的简称，顾名思义，神经网络借鉴了神经生理学关于人体神经网络的研究，并尝试通过数学建模来描述机器智能。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

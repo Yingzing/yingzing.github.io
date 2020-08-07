@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>王凤翔</title>
+    <link>https://yingzing.github.io/</link>
+    <description>Recent content on 王凤翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 07 Aug 2020 07:39:22 -0700</lastBuildDate>
+    
+	<atom:link href="https://yingzing.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Posts</title>
+      <link>https://yingzing.github.io/posts/</link>
+      <pubDate>Fri, 07 Aug 2020 07:41:04 -0700</pubDate>
+      
+      <guid>https://yingzing.github.io/posts/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tensorflow</title>
+      <link>https://yingzing.github.io/tech/tensorflow/</link>
+      <pubDate>Fri, 07 Aug 2020 07:39:22 -0700</pubDate>
+      
+      <guid>https://yingzing.github.io/tech/tensorflow/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Keras</title>
+      <link>https://yingzing.github.io/tech/keras/</link>
+      <pubDate>Fri, 07 Aug 2020 06:15:33 -0700</pubDate>
+      
+      <guid>https://yingzing.github.io/tech/keras/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>论语阅读</title>
+      <link>https://yingzing.github.io/humanities/%E8%AE%BA%E8%AF%AD%E9%98%85%E8%AF%BB/</link>
+      <pubDate>Fri, 07 Aug 2020 05:39:55 -0700</pubDate>
+      
+      <guid>https://yingzing.github.io/humanities/%E8%AE%BA%E8%AF%AD%E9%98%85%E8%AF%BB/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Lstm</title>
+      <link>https://yingzing.github.io/tech/lstm/</link>
+      <pubDate>Fri, 07 Aug 2020 05:12:44 -0700</pubDate>
+      
+      <guid>https://yingzing.github.io/tech/lstm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>个人简介</title>
+      <link>https://yingzing.github.io/about/</link>
+      <pubDate>Tue, 04 Aug 2020 18:16:13 -0700</pubDate>
+      
+      <guid>https://yingzing.github.io/about/</guid>
+      <description>个人信息 姓名：王凤翔 邮箱：wfximer@pku.edu.cn 手机：13021131115 地址：北京大学信息管理系</description>
+    </item>
+    
+    <item>
+      <title>Matlab搭建cnn框架</title>
+      <link>https://yingzing.github.io/tech/matlab%E6%90%AD%E5%BB%BAcnn%E6%A1%86%E6%9E%B6/</link>
+      <pubDate>Tue, 06 Aug 2019 17:10:55 -0700</pubDate>
+      
+      <guid>https://yingzing.github.io/tech/matlab%E6%90%AD%E5%BB%BAcnn%E6%A1%86%E6%9E%B6/</guid>
+      <description>&lt;p&gt;（1）神经网络
+“神经网络”是“人工神经网络”的简称，顾名思义，神经网络借鉴了神经生理学关于人体神经网络的研究，并尝试通过数学建模来描述机器智能。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
